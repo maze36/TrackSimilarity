@@ -50,12 +50,11 @@ public class CSVReader {
 			ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
 			while ((LINE = reader.readLine()) != null) {
 				String[] predTrackLine = LINE.split(SPLITTER);
-				if (!predTrackLine[0].contains("lat")) {
-					Coordinate coord = new Coordinate(Double.valueOf(predTrackLine[0]),
-							Double.valueOf(predTrackLine[1]));
+				if (!predTrackLine[0].contains("mmsi")) {
+					Coordinate coord = new Coordinate(Double.valueOf(predTrackLine[7]),
+							Double.valueOf(predTrackLine[8]));
 					coordinates.add(coord);
 				}
-
 			}
 			System.out.println("Finished reading historic track from " + path);
 			return new Track(coordinates);
