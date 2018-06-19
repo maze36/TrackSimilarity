@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
+import model.JadeNode;
 import model.Track;
 
 public class CSVReader {
@@ -61,6 +62,30 @@ public class CSVReader {
 
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
+	public static ArrayList<JadeNode> readJadeNodes(String csvLocationJadeNodes) {
+
+		ArrayList<JadeNode> jadeNodes = new ArrayList<JadeNode>();
+
+		try {
+			@SuppressWarnings("resource")
+			BufferedReader reader = new BufferedReader(new FileReader(csvLocationJadeNodes));
+
+			while ((LINE = reader.readLine()) != null) {
+				String[] jadeNodeLine = LINE.split(SPLITTER);
+				if (!jadeNodeLine[0].contains("lat") && jadeNodeLine.length > 1) {
+					Coordinate position = new Coordinate(Double.valueOf(jadeNodeLine[0]),
+							Double.valueOf(jadeNodeLine[1]));
+					String name = jadeNodeLine[2].replaceAll("\"", "");
+					jadeNodes.add(new JadeNode(position, name));
+
+				}
+			}
+			return jadeNodes;
+		} catch (IOException e) {
 			return null;
 		}
 	}
