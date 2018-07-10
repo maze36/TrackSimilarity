@@ -3,6 +3,7 @@ package app;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import controller.PathPredictor;
 import controller.SimilarityCalculator;
 import input.CSVReader;
 import model.Track;
@@ -16,6 +17,8 @@ public class TrackSimilarity {
 		logger.info("Starting app...");
 
 		ArrayList<Track> historicTracks = CSVReader.readHistoricTracks("tracks");
+
+		PathPredictor.INSTANCE.init();
 
 		SimilarityCalculator.calculatingSimilarities(historicTracks);
 

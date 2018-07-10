@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
 
 import model.AISMessage;
 import model.Prediction;
-import model.Track;
 
 public class GeometryMethods {
 
@@ -19,26 +17,9 @@ public class GeometryMethods {
 		this.geoFactory = new GeometryFactory();
 	}
 
-	/**
-	 * 
-	 * @param predictedTrack
-	 * @param historicTrack
-	 */
-	public static double calculateOverallDistance(Track predictedTrack, Track historicTrack) {
-		GeometryFactory factory = new GeometryFactory();
-		LineString historicLine = createLineString(createCoordinateArray(historicTrack), factory);
-
-		double overallDistance = 0;
-
-		for (Coordinate coord : predictedTrack.getCoordinatesList()) {
-			Point p = factory.createPoint(coord);
-			overallDistance = overallDistance + p.distance(historicLine);
-		}
-
-		return overallDistance;
+	public double calculateOverallDistance(LineString lineString, LineString lineString2) {
+		return lineString.distance(lineString2);
 	}
-
-	public double calculateOverallDistance(LineString lineString, )
 
 	public LineString createLineString(Prediction prediction) {
 		Coordinate[] coordinates = new Coordinate[prediction.getPrediction().size()];

@@ -1,9 +1,14 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
+import com.vividsolutions.jts.geom.LineString;
+
+import geometry.GeometryMethods;
 import model.AISMessage;
+import model.Prediction;
 import model.Track;
 import output.CSVWriter;
 
@@ -14,6 +19,9 @@ public class SimilarityCalculator {
 	public static void calculatingSimilarities(ArrayList<Track> historicTracks) {
 		CSVWriter csvWriter = new CSVWriter();
 
+		HashMap<Integer, Double> overallDistances = new HashMap<Integer, Double>();
+		GeometryMethods geo = new GeometryMethods();
+
 		int counter = 0;
 
 		while (counter <= 1000) {
@@ -22,8 +30,20 @@ public class SimilarityCalculator {
 			AISMessage aisMessage = randomTrack.getMessage().get(messageNumber);
 			logger.info("Picked message " + messageNumber);
 			logger.info("Message content: " + aisMessage.toString());
-			csvWriter.writeHistoricTrack(randomTrack, messageNumber);
+			// csvWriter.writeHistoricTrack(randomTrack, messageNumber);
+
+			Prediction prediction = PathPredictor.INSTANCE.getPossiblePath(aisMessage);
+			// csvWriter.writePrediction(prediction, randomTrack.getTrackId());
+
+			LineString lsPrediction = geo.createLineString(prediction);
+			LineString lsTrack = geo.createLineString(randomTrack.getMessage(), messageNumber);
+
+			double distance = geo.calculateOverallDistance(lsPrediction, lsTrack);
+
+			overallDistances.put(randomTrack.getTrackId(), distance);
+
 		}
+		csvWriter.writeDistances(overallDistances);
 
 	}
 
