@@ -160,13 +160,13 @@ public class InnenjadeQuadtreeNode {
 	 */
 	public boolean intersectRoadNetworkNode(JadeNode node) {
 
-		Envelope wayPointEnvelope = new Envelope(node.getPosition());
+		Envelope wayPointEnvelope = new Envelope(node.getCoordinate());
 		return (area.contains(wayPointEnvelope) || area.intersects(wayPointEnvelope));
 	}
 
 	private boolean intersectRoadNetworkNode(JadeNode node, Envelope env) {
 
-		Envelope wayPointEnvelope = new Envelope(node.getPosition());
+		Envelope wayPointEnvelope = new Envelope(node.getCoordinate());
 		return (env.contains(wayPointEnvelope) || env.intersects(wayPointEnvelope));
 	}
 

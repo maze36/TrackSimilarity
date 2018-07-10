@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
@@ -20,19 +21,26 @@ public class JadeNode {
 
 	private ArrayList<String> directNeighbors;
 
+	private HashMap<Double, LengthDistribution> lengthDistribution;
+
+	private HashMap<String, ShiptypeDistribution> shiptypeDistribution;
+
+	private int wptNumber;
+
 	public JadeNode(Coordinate position, JadeNodeType jadeNodeType, String name) {
 		this.position = position;
 		this.jadeNodeType = jadeNodeType;
 		this.name = name;
+		this.setShiptypeDistribution(new HashMap<String, ShiptypeDistribution>());
+		this.setLengthDistribution(new HashMap<Double, LengthDistribution>());
 		this.directNeighbors = new ArrayList<String>();
+		if (name.contains("WP")) {
+			String sNumber = name.substring(name.length() - 1);
+			this.wptNumber = Integer.valueOf(sNumber);
+		}
 	}
 
-	public JadeNode(Coordinate position2, String name2) {
-		this.position = position2;
-		this.name = name2;
-	}
-
-	public Coordinate getPosition() {
+	public Coordinate getCoordinate() {
 		return position;
 	}
 
@@ -56,6 +64,22 @@ public class JadeNode {
 		this.name = name;
 	}
 
+	public HashMap<String, ShiptypeDistribution> getShiptypeDistribution() {
+		return shiptypeDistribution;
+	}
+
+	public void setShiptypeDistribution(HashMap<String, ShiptypeDistribution> shiptypeDistribution) {
+		this.shiptypeDistribution = shiptypeDistribution;
+	}
+
+	public HashMap<Double, LengthDistribution> getLengthDistribution() {
+		return lengthDistribution;
+	}
+
+	public void setLengthDistribution(HashMap<Double, LengthDistribution> lengthDistribution) {
+		this.lengthDistribution = lengthDistribution;
+	}
+
 	public ArrayList<String> getDirectNeighbors() {
 		return directNeighbors;
 	}
@@ -75,6 +99,14 @@ public class JadeNode {
 		} else {
 			return true;
 		}
+	}
+
+	public int getWptNumber() {
+		return wptNumber;
+	}
+
+	public void setWptNumber(int wptNumber) {
+		this.wptNumber = wptNumber;
 	}
 
 }
