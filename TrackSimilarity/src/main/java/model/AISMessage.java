@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Date;
-
 import com.vividsolutions.jts.geom.Coordinate;
 
 public class AISMessage {
@@ -14,15 +12,11 @@ public class AISMessage {
 
 	private double cog;
 
-	private double rot;
-
 	private double lat;
 
 	private double lon;
 
-	private CogInterval cogBinned;
-
-	private Date timestamp;
+	private String timestamp;
 
 	private double length;
 
@@ -48,10 +42,6 @@ public class AISMessage {
 		return cog;
 	}
 
-	public double getRot() {
-		return rot;
-	}
-
 	public double getLat() {
 		return lat;
 	}
@@ -60,11 +50,7 @@ public class AISMessage {
 		return lon;
 	}
 
-	public CogInterval getCogBinned() {
-		return cogBinned;
-	}
-
-	public Date getTimestamp() {
+	public String getTimestamp() {
 		return timestamp;
 	}
 
@@ -92,10 +78,6 @@ public class AISMessage {
 		this.cog = cog;
 	}
 
-	public void setRot(double rot) {
-		this.rot = rot;
-	}
-
 	public void setLat(double lat) {
 		this.lat = lat;
 	}
@@ -104,11 +86,7 @@ public class AISMessage {
 		this.lon = lon;
 	}
 
-	public void setCogBinned(CogInterval cogBinned) {
-		this.cogBinned = cogBinned;
-	}
-
-	public void setTimestamp(Date timestamp) {
+	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
 
@@ -116,12 +94,23 @@ public class AISMessage {
 		this.length = length;
 	}
 
-	public void setShiptype(Shiptype shiptype) {
-		this.shiptype = shiptype;
+	public void setShiptype(String shiptype) {
+		String type = shiptype.replaceAll("\"", "");
+		if (type.equals("GeneralCargo")) {
+			this.shiptype = Shiptype.CARGO;
+		} else if (type.equals("Tanker")) {
+			this.shiptype = Shiptype.TANKER;
+		}
 	}
 
 	public Coordinate getPosition() {
 		return new Coordinate(this.lat, this.lon);
+	}
+
+	@Override
+	public String toString() {
+		return "AISMessage [mmsi=" + mmsi + ", heading=" + heading + ", sog=" + sog + ", cog=" + cog + ", lat=" + lat
+				+ ", lon=" + lon + ", timestamp=" + timestamp + ", length=" + length + ", shiptype=" + shiptype + "]";
 	}
 
 }

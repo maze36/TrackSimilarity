@@ -2,22 +2,30 @@ package model;
 
 import java.util.ArrayList;
 
-import com.vividsolutions.jts.geom.Coordinate;
-
 public class Track {
 
-	private ArrayList<Coordinate> coordinates;
+	private ArrayList<AISMessage> message;
 
-	public Track(ArrayList<Coordinate> coordinates) {
-		this.coordinates = coordinates;
+	private int trackId;
+
+	public Track() {
+		this.message = new ArrayList<AISMessage>();
 	}
 
-	public Coordinate getCoordinate(int index) {
-		return coordinates.get(index);
+	public ArrayList<AISMessage> getMessage() {
+		return message;
 	}
 
-	public ArrayList<Coordinate> getCoordinatesList() {
-		return this.coordinates;
+	public void setMessage(ArrayList<AISMessage> message) {
+		this.message = message;
+	}
+
+	public int getTrackId() {
+		return trackId;
+	}
+
+	public void setTrackId(int trackId) {
+		this.trackId = trackId;
 	}
 
 }

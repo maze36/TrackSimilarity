@@ -5,10 +5,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
 
+import model.AISMessage;
 import model.InnenjadeQuadtree;
 import model.JadeNode;
 import model.JadeNodeType;
@@ -18,59 +20,11 @@ import model.Track;
 
 public class CSVReader {
 
+	private static final Logger logger = Logger.getLogger(CSVReader.class.getName());
+
 	private static String LINE = "";
 
 	private final static String SPLITTER = ",";
-
-	public static Track readPredictedTrack(String path) {
-
-		System.out.println("Reading predicted track from " + path);
-
-		try {
-			@SuppressWarnings("resource")
-			BufferedReader reader = new BufferedReader(new FileReader(path));
-			ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
-			while ((LINE = reader.readLine()) != null) {
-				String[] predTrackLine = LINE.split(SPLITTER);
-				if (!predTrackLine[0].contains("lat")) {
-					Coordinate coord = new Coordinate(Double.valueOf(predTrackLine[0]),
-							Double.valueOf(predTrackLine[1]));
-					coordinates.add(coord);
-				}
-
-			}
-			System.out.println("Finished reading predicted track from " + path);
-			return new Track(coordinates);
-
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
-	}
-
-	public static Track readHistoricTrack(String path) {
-		System.out.println("Reading historic track from " + path);
-
-		try {
-			@SuppressWarnings("resource")
-			BufferedReader reader = new BufferedReader(new FileReader(path));
-			ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
-			while ((LINE = reader.readLine()) != null) {
-				String[] predTrackLine = LINE.split(SPLITTER);
-				if (!predTrackLine[0].contains("lat")) {
-					Coordinate coord = new Coordinate(Double.valueOf(predTrackLine[0]),
-							Double.valueOf(predTrackLine[1]));
-					coordinates.add(coord);
-				}
-			}
-			System.out.println("Finished reading historic track from " + path);
-			return new Track(coordinates);
-
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
-	}
 
 	/**
 	 * Reads in the CSV-file containing the nodes of the transportation network
@@ -225,6 +179,48 @@ public class CSVReader {
 		File folder = new File(directory);
 		File[] result = folder.listFiles();
 		return result;
+	}
+
+	public static ArrayList<Track> readHistoricTracks(String path) {
+
+		logger.info("Reading historic tracks from " + path);
+
+		ArrayList<Track> tracks = new ArrayList<Track>();
+		File[] listOfFiles = getFilesInDirectory(path);
+		for (int i = 0; i < listOfFiles.length; i++) {
+			String location = listOfFiles[i].getPath();
+
+			Track track = new Track();
+			try {
+				@SuppressWarnings("resource")
+				BufferedReader reader = new BufferedReader(new FileReader(location));
+				ArrayList<AISMessage> messages = new ArrayList<AISMessage>();
+				while ((LINE = reader.readLine()) != null) {
+					String[] predTrackLine = LINE.split(SPLITTER);
+					if (!predTrackLine[0].contains("mmsi")) {
+						AISMessage message = new AISMessage();
+						message.setMmsi(Integer.valueOf(predTrackLine[0]));
+						message.setHeading(Double.valueOf(predTrackLine[1]));
+						message.setSog(Double.valueOf(predTrackLine[2]));
+						message.setCog(Double.valueOf(predTrackLine[3]));
+						message.setTimestamp(predTrackLine[6]);
+						message.setLat(Double.valueOf(predTrackLine[7]));
+						message.setLon(Double.valueOf(predTrackLine[8]));
+						message.setLength(Double.valueOf(predTrackLine[13]));
+						message.setShiptype(predTrackLine[14]);
+						messages.add(message);
+					}
+				}
+				track.setMessage(messages);
+				track.setTrackId(i);
+				tracks.add(track);
+			} catch (IOException e) {
+				logger.severe(e.getMessage());
+				return null;
+			}
+		}
+		logger.info("Finished reading tracks from " + path);
+		return tracks;
 	}
 
 }
