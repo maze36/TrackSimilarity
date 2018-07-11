@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.Point;
 
 import model.AISMessage;
 import model.Prediction;
@@ -17,8 +18,17 @@ public class GeometryMethods {
 		this.geoFactory = new GeometryFactory();
 	}
 
-	public double calculateOverallDistance(LineString lineString, LineString lineString2) {
-		return lineString.distance(lineString2);
+	public double calculateOverallDistance(LineString lineString, ArrayList<Coordinate> coordinates) {
+		double result = 0;
+
+		for (Coordinate coordinate : coordinates) {
+			Point p = geoFactory.createPoint(coordinate);
+			double distance = p.distance(lineString);
+			result += distance;
+		}
+
+		return result;
+
 	}
 
 	public LineString createLineString(Prediction prediction) {
@@ -37,8 +47,11 @@ public class GeometryMethods {
 
 		Coordinate[] coordinates = new Coordinate[aisMessages.size() - index];
 
+		int j = 0;
+
 		for (int i = index; i < aisMessages.size(); i++) {
-			coordinates[i] = aisMessages.get(i).getPosition();
+			coordinates[j] = aisMessages.get(i).getPosition();
+			j++;
 		}
 
 		LineString lineString = this.geoFactory.createLineString(coordinates);

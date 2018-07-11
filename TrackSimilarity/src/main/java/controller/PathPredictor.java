@@ -52,6 +52,9 @@ public class PathPredictor {
 				ArrayList<JadeNode> possibleNextNodes = new ArrayList<JadeNode>();
 				for (String neighborString : nearestNode.getDirectNeighbors()) {
 					JadeNode neighborNode = knowledgeBase.getJadeNodeByName(neighborString);
+					if (neighborNode == null) {
+						System.out.println();
+					}
 					if (isInMovingDirection(aisMessage, neighborNode)) {
 						possibleNextNodes.add(neighborNode);
 					}
@@ -105,6 +108,10 @@ public class PathPredictor {
 			}
 
 			wptNumber -= 1;
+
+			if (wptNumber == 0) {
+				finished = true;
+			}
 
 		}
 

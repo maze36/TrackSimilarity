@@ -24,24 +24,30 @@ public class SimilarityCalculator {
 
 		int counter = 0;
 
-		while (counter <= 1000) {
+		while (counter <= 10) {
 			Track randomTrack = pickRandomTrack(historicTracks);
+
+			while (randomTrack.getMessage().size() < 100) {
+				randomTrack = pickRandomTrack(historicTracks);
+			}
+
 			int messageNumber = GeoUtil.generateRandomNumber(0, randomTrack.getMessage().size() - 1);
 			AISMessage aisMessage = randomTrack.getMessage().get(messageNumber);
 			logger.info("Picked message " + messageNumber);
 			logger.info("Message content: " + aisMessage.toString());
-			// csvWriter.writeHistoricTrack(randomTrack, messageNumber);
+			csvWriter.writeHistoricTrack(randomTrack, messageNumber);
 
 			Prediction prediction = PathPredictor.INSTANCE.getPossiblePath(aisMessage);
-			// csvWriter.writePrediction(prediction, randomTrack.getTrackId());
 
-			LineString lsPrediction = geo.createLineString(prediction);
-			LineString lsTrack = geo.createLineString(randomTrack.getMessage(), messageNumber);
+			if (prediction != null) {
+				csvWriter.writePrediction(prediction, randomTrack.getTrackId());
+				LineString lsTrack = geo.createLineString(randomTrack.getMessage(), messageNumber);
 
-			double distance = geo.calculateOverallDistance(lsPrediction, lsTrack);
+				double distance = geo.calculateOverallDistance(lsTrack, prediction.getPrediction());
 
-			overallDistances.put(randomTrack.getTrackId(), distance);
-
+				overallDistances.put(randomTrack.getTrackId(), distance);
+			}
+			counter++;
 		}
 		csvWriter.writeDistances(overallDistances);
 
