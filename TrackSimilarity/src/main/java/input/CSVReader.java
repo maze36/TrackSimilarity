@@ -27,11 +27,10 @@ public class CSVReader {
 	private final static String SPLITTER = ",";
 
 	/**
-	 * Reads in the CSV-file containing the nodes of the transportation network
-	 * in the Jade. The nodes will be stored in a {@link InnenjadeQuadtree}.
+	 * Reads in the CSV-file containing the nodes of the transportation network in
+	 * the Jade. The nodes will be stored in a {@link InnenjadeQuadtree}.
 	 * 
-	 * @param csvLocationJadeNodes
-	 *            The location of the CSV file.
+	 * @param csvLocationJadeNodes The location of the CSV file.
 	 * @return The {@link InnenjadeQuadtree} containing the nodes.
 	 */
 	public static InnenjadeQuadtree readJadeNodes(String csvLocationJadeNodes) {
@@ -76,8 +75,7 @@ public class CSVReader {
 	 * Extracting the neighbors that are contained in a {@link String}. The
 	 * {@link String} must have the format "neighbor1, neighbor2...neighborN".
 	 * 
-	 * @param neighbors
-	 *            The {@link String} in the described format above.
+	 * @param neighbors The {@link String} in the described format above.
 	 * @return An {@link ArrayList} containing the neighbors as {@link String}.
 	 */
 	private static ArrayList<String> extractNeighbors(String neighbors) {
@@ -98,15 +96,15 @@ public class CSVReader {
 	}
 
 	/**
-	 * Reads in the CSV-files which contain the statistical distribution for
-	 * every node in the extracted traffic pattern graph. The appropriate nodes
-	 * will be augmented by these information.
+	 * Reads in the CSV-files which contain the statistical distribution for every
+	 * node in the extracted traffic pattern graph. The appropriate nodes will be
+	 * augmented by these information.
 	 * 
-	 * @param csvLocationStatisticalDistribution
-	 *            The path to the directory of the CSV-files.
-	 * @param innenJadeQuadtree
-	 *            The {@link InnenjadeQuadtree} containing the extracted traffic
-	 *            pattern graph.
+	 * @param csvLocationStatisticalDistribution The path to the directory of the
+	 *                                           CSV-files.
+	 * @param innenJadeQuadtree                  The {@link InnenjadeQuadtree}
+	 *                                           containing the extracted traffic
+	 *                                           pattern graph.
 	 * @return
 	 */
 	public static InnenjadeQuadtree readStatisticalDistribution(String csvLocationStatisticalDistribution,

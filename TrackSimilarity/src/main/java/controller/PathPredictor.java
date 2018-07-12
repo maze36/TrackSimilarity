@@ -160,8 +160,8 @@ public class PathPredictor {
 	}
 
 	/**
-	 * Finds the path to the given destination {@link JadeNode} from the nearest
-	 * way point.
+	 * Finds the path to the given destination {@link JadeNode} from the nearest way
+	 * point.
 	 * 
 	 * @param nearestWp
 	 * @param destination
@@ -188,9 +188,9 @@ public class PathPredictor {
 
 	/**
 	 * Determines the possible destination {@link JadeNode} for incoming
-	 * {@link TargetShip} based either on the {@link ShiptypeDistribution} or
-	 * the {@link LengthDistribution}. If there are no observation for either
-	 * one, a random destination is picked.
+	 * {@link TargetShip} based either on the {@link ShiptypeDistribution} or the
+	 * {@link LengthDistribution}. If there are no observation for either one, a
+	 * random destination is picked.
 	 * 
 	 * @param nearestNode
 	 * @param aisMessage
@@ -296,8 +296,8 @@ public class PathPredictor {
 	}
 
 	/**
-	 * Calculates the path between the current position of a {@link TargetShip}
-	 * and the next {@link JadeNode} in the given {@link ArrayList}.
+	 * Calculates the path between the current position of a {@link TargetShip} and
+	 * the next {@link JadeNode} in the given {@link ArrayList}.
 	 * 
 	 * @param aisMessage
 	 * @param points
@@ -387,8 +387,8 @@ public class PathPredictor {
 	}
 
 	/**
-	 * Determines with the given course over ground if the vessel is going
-	 * "NORTH" or "SOUTH". If nothing is fulfilled, "TBD" is returned.
+	 * Determines with the given course over ground if the vessel is going "NORTH"
+	 * or "SOUTH". If nothing is fulfilled, "TBD" is returned.
 	 * 
 	 * @param cog
 	 * @return

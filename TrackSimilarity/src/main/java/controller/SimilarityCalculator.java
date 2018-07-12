@@ -23,8 +23,10 @@ public class SimilarityCalculator {
 		GeometryMethods geo = new GeometryMethods();
 
 		int counter = 0;
-
 		while (counter <= 10) {
+
+			frame.updateProgessBar(0 * 10);
+
 			Track randomTrack = pickRandomTrack(historicTracks);
 
 			while (randomTrack.getMessage().size() < 100) {
