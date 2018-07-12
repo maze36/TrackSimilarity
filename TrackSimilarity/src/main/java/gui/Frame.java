@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 
+import controller.UIController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -62,6 +63,7 @@ public class Frame extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		try {
 			FXMLLoader loader = new FXMLLoader();
+			loader.setController(new UIController());
 			loader.setLocation(getClass().getResource("/ui/entwurf.fxml"));
 			Parent root = loader.load();
 			primaryStage.setTitle("Hello");

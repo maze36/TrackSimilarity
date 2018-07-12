@@ -15,30 +15,30 @@
    <top>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <ProgressBar layoutX="267.0" layoutY="153.0" prefHeight="18.0" prefWidth="759.0" progress="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" />
+            <ProgressBar fx:id="progressBar" layoutX="267.0" layoutY="153.0" prefHeight="18.0" prefWidth="759.0" progress="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" />
             <Label layoutX="61.0" layoutY="23.0" text="Select Vessel Type" AnchorPane.leftAnchor="50.0" />
-            <Button layoutX="734.0" layoutY="51.0" mnemonicParsing="false" text="Start" AnchorPane.rightAnchor="25.0" />
-            <RadioButton layoutX="50.0" layoutY="43.0" mnemonicParsing="false" text="Tanker" AnchorPane.leftAnchor="50.0" />
-            <RadioButton layoutX="50.0" layoutY="68.0" mnemonicParsing="false" text="Cargo" AnchorPane.leftAnchor="50.0" />
+            <Button fx:id="btnStart" layoutX="734.0" layoutY="51.0" mnemonicParsing="false" onAction="#handleStartAction" text="Start" AnchorPane.rightAnchor="25.0" />
+            <RadioButton fx:id="radioTanker" layoutX="50.0" layoutY="43.0" mnemonicParsing="false" text="Tanker" AnchorPane.leftAnchor="50.0" />
+            <RadioButton fx:id="radioCargo" layoutX="50.0" layoutY="68.0" mnemonicParsing="false" text="Cargo" AnchorPane.leftAnchor="50.0" />
          </children>
       </AnchorPane>
    </top>
    <center>
-      <TextArea prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <TextArea fx:id="consoleTxtArea" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
    <right>
-      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="103.20001220703125" text="Feature" />
-          <TableColumn prefWidth="96.0" text="Value" />
+          <TableColumn fx:id="clmFeature" prefWidth="103.20001220703125" text="Feature" />
+          <TableColumn fx:id="clmValue" prefWidth="96.0" text="Value" />
         </columns>
       </TableView>
    </right>
    <bottom>
       <AnchorPane prefHeight="83.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <Button disable="true" layoutX="153.0" layoutY="29.0" mnemonicParsing="false" text="Save Resuts" />
-            <Label layoutX="247.0" layoutY="33.0" />
+            <Button fx:id="btnSave" disable="true" layoutX="153.0" layoutY="29.0" mnemonicParsing="false" text="Save Resuts" />
+            <Label fx:id="lblSave" layoutX="247.0" layoutY="33.0" />
          </children>
       </AnchorPane>
    </bottom>
