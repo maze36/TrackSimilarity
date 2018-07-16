@@ -1,8 +1,8 @@
 package controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 import com.vividsolutions.jts.geom.LineString;
 
@@ -14,8 +14,6 @@ import output.CSVWriter;
 
 public class SimilarityCalculator {
 
-	private final static Logger logger = Logger.getLogger(SimilarityCalculator.class.getName());
-
 	public static void calculatingSimilarities(ArrayList<Track> historicTracks) {
 		CSVWriter csvWriter = new CSVWriter();
 
@@ -25,8 +23,6 @@ public class SimilarityCalculator {
 		int counter = 0;
 		while (counter <= 10) {
 
-			frame.updateProgessBar(0 * 10);
-
 			Track randomTrack = pickRandomTrack(historicTracks);
 
 			while (randomTrack.getMessage().size() < 100) {
@@ -35,8 +31,9 @@ public class SimilarityCalculator {
 
 			int messageNumber = GeoUtil.generateRandomNumber(0, randomTrack.getMessage().size() - 1);
 			AISMessage aisMessage = randomTrack.getMessage().get(messageNumber);
-			logger.info("Picked message " + messageNumber);
-			logger.info("Message content: " + aisMessage.toString());
+			System.out.println(new Timestamp(System.currentTimeMillis()) + ": Picked message " + messageNumber);
+			System.out
+					.println(new Timestamp(System.currentTimeMillis()) + ": Message content: " + aisMessage.toString());
 			csvWriter.writeHistoricTrack(randomTrack, messageNumber);
 
 			Prediction prediction = PathPredictor.INSTANCE.getPossiblePath(aisMessage);
@@ -58,7 +55,7 @@ public class SimilarityCalculator {
 	private static Track pickRandomTrack(ArrayList<Track> historicTracks) {
 		int trackNumber = GeoUtil.generateRandomNumber(0, historicTracks.size() - 1);
 
-		logger.info("Picking random track " + trackNumber);
+		System.out.println(new Timestamp(System.currentTimeMillis()) + ": Picking random track " + trackNumber);
 
 		return historicTracks.get(trackNumber);
 	}

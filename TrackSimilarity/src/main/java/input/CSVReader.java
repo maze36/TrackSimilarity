@@ -4,8 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
@@ -19,8 +19,6 @@ import model.ShiptypeDistribution;
 import model.Track;
 
 public class CSVReader {
-
-	private static final Logger logger = Logger.getLogger(CSVReader.class.getName());
 
 	private static String LINE = "";
 
@@ -181,7 +179,7 @@ public class CSVReader {
 
 	public static ArrayList<Track> readHistoricTracks(String path) {
 
-		logger.info("Reading historic tracks from " + path);
+		System.out.println(new Timestamp(System.currentTimeMillis()) + ": Reading historic tracks from " + path);
 
 		ArrayList<Track> tracks = new ArrayList<Track>();
 		File[] listOfFiles = getFilesInDirectory(path);
@@ -213,11 +211,11 @@ public class CSVReader {
 				track.setTrackId(i);
 				tracks.add(track);
 			} catch (IOException e) {
-				logger.severe(e.getMessage());
+				System.err.println(e.getMessage());
 				return null;
 			}
 		}
-		logger.info("Finished reading tracks from " + path);
+		System.out.println(new Timestamp(System.currentTimeMillis()) + ": Finished reading tracks from " + path);
 		return tracks;
 	}
 

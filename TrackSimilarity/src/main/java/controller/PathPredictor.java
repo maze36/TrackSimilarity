@@ -1,5 +1,6 @@
 package controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -404,6 +405,7 @@ public class PathPredictor {
 	}
 
 	public void init() {
+		System.out.println(new Timestamp(System.currentTimeMillis()) + ": Initialzing " + this.getClass().getName());
 		knowledgeBase = new InnenjadeKnowledgeBase();
 	}
 }
