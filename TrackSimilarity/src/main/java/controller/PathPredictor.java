@@ -33,8 +33,14 @@ public class PathPredictor {
 		Coordinate tsPoCoordinate = aisMessage.getPosition();
 		double tsCog = aisMessage.getCog();
 		JadeNode nearestNode = knowledgeBase.findNearestNode(tsPoCoordinate);
-		ArrayList<Coordinate> predictedTrack = new ArrayList<Coordinate>();
+		ArrayList<Coordinate> predictedTrack = new ArrayList<>();
 		if (isInMovingDirection(aisMessage, nearestNode)) {
+
+			if (nearestNode.getName().contains("Exit")) {
+				predictedTrack.add(nearestNode.getCoordinate());
+				return calculatePath(aisMessage, predictedTrack);
+			}
+
 			if (nearestNode.getName().contains("WP")) {
 				predictedTrack.add(nearestNode.getCoordinate());
 				String direction = checkMovingDirection(tsCog);
@@ -50,7 +56,7 @@ public class PathPredictor {
 		} else {
 			// Wp
 			if (nearestNode.getName().contains("WP")) {
-				ArrayList<JadeNode> possibleNextNodes = new ArrayList<JadeNode>();
+				ArrayList<JadeNode> possibleNextNodes = new ArrayList<>();
 				for (String neighborString : nearestNode.getDirectNeighbors()) {
 					JadeNode neighborNode = knowledgeBase.getJadeNodeByName(neighborString);
 					if (neighborNode == null) {
@@ -71,6 +77,7 @@ public class PathPredictor {
 					return calculatePath(aisMessage, predictedTrack);
 				} else {
 					JadeNode wp = knowledgeBase.getJadeNodeByName(nearestNode.getDirectNeighbors().get(0));
+					predictedTrack.add(wp.getCoordinate());
 					return iterateToExit(wp.getWptNumber(), predictedTrack, aisMessage);
 				}
 			}
@@ -211,7 +218,7 @@ public class PathPredictor {
 
 		ArrayList<String> possibleDestinationsStrings = knowledgeBase
 				.getPossibleDestinationsByShiptype(aisMessage.getShiptype());
-		ArrayList<JadeNode> possibleDestinationsNode = new ArrayList<JadeNode>();
+		ArrayList<JadeNode> possibleDestinationsNode = new ArrayList<>();
 
 		for (String neighborString : possibleDestinationsStrings) {
 			JadeNode neighbor = knowledgeBase.getJadeNodeByName(neighborString);
@@ -227,7 +234,7 @@ public class PathPredictor {
 		}
 
 		// Ship type is first option
-		HashMap<JadeNode, Double> concreteDestinations = new HashMap<JadeNode, Double>();
+		HashMap<JadeNode, Double> concreteDestinations = new HashMap<>();
 		for (JadeNode possibleDestination : possibleDestinationsNode) {
 			ShiptypeDistribution shiptypeDistribution = possibleDestination.getShiptypeDistribution()
 					.get(aisMessage.getShiptype());
@@ -311,7 +318,7 @@ public class PathPredictor {
 		}
 
 		double bearingToNextPoint = GeoUtil.calculateAzimuthInDegrees(aisMessage.getPosition(), points.get(0));
-		ArrayList<Coordinate> lastCoordinates = new ArrayList<Coordinate>();
+		ArrayList<Coordinate> lastCoordinates = new ArrayList<>();
 		lastCoordinates.addAll(points);
 		points.clear();
 

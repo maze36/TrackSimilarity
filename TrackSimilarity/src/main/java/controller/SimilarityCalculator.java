@@ -14,10 +14,10 @@ import output.CSVWriter;
 
 public class SimilarityCalculator {
 
-	public static void calculatingSimilarities(ArrayList<Track> historicTracks) {
+	public static HashMap<Integer, Double> calculatingSimilarities(ArrayList<Track> historicTracks) {
 		CSVWriter csvWriter = new CSVWriter();
 
-		HashMap<Integer, Double> overallDistances = new HashMap<Integer, Double>();
+		HashMap<Integer, Double> overallDistances = new HashMap<>();
 		GeometryMethods geo = new GeometryMethods();
 
 		int counter = 0;
@@ -48,16 +48,19 @@ public class SimilarityCalculator {
 			}
 			counter++;
 		}
-		csvWriter.writeDistances(overallDistances);
+
+		return overallDistances;
 
 	}
 
 	private static Track pickRandomTrack(ArrayList<Track> historicTracks) {
 		int trackNumber = GeoUtil.generateRandomNumber(0, historicTracks.size() - 1);
 
-		System.out.println(new Timestamp(System.currentTimeMillis()) + ": Picking random track " + trackNumber);
+		Track track = historicTracks.get(trackNumber);
 
-		return historicTracks.get(trackNumber);
+		System.out.println(new Timestamp(System.currentTimeMillis()) + ": Picking random track " + track.getTrackId());
+
+		return track;
 	}
 
 }

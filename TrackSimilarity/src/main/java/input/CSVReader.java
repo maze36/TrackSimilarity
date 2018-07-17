@@ -78,7 +78,7 @@ public class CSVReader {
 	 */
 	private static ArrayList<String> extractNeighbors(String neighbors) {
 
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<String> result = new ArrayList<>();
 
 		while (neighbors.contains(";")) {
 			int end = neighbors.indexOf(";");
@@ -181,7 +181,7 @@ public class CSVReader {
 
 		System.out.println(new Timestamp(System.currentTimeMillis()) + ": Reading historic tracks from " + path);
 
-		ArrayList<Track> tracks = new ArrayList<Track>();
+		ArrayList<Track> tracks = new ArrayList<>();
 		File[] listOfFiles = getFilesInDirectory(path);
 		for (int i = 0; i < listOfFiles.length; i++) {
 			String location = listOfFiles[i].getPath();
@@ -190,11 +190,12 @@ public class CSVReader {
 			try {
 				@SuppressWarnings("resource")
 				BufferedReader reader = new BufferedReader(new FileReader(location));
-				ArrayList<AISMessage> messages = new ArrayList<AISMessage>();
+				ArrayList<AISMessage> messages = new ArrayList<>();
 				while ((LINE = reader.readLine()) != null) {
 					String[] predTrackLine = LINE.split(SPLITTER);
 					if (!predTrackLine[0].contains("mmsi")) {
 						AISMessage message = new AISMessage();
+						message.setFilename(location);
 						message.setMmsi(Integer.valueOf(predTrackLine[0]));
 						message.setHeading(Double.valueOf(predTrackLine[1]));
 						message.setSog(Double.valueOf(predTrackLine[2]));

@@ -22,6 +22,8 @@ public class AISMessage {
 
 	private Shiptype shiptype;
 
+	private String filename;
+
 	public AISMessage() {
 
 	}
@@ -110,7 +112,16 @@ public class AISMessage {
 	@Override
 	public String toString() {
 		return "AISMessage [mmsi=" + mmsi + ", heading=" + heading + ", sog=" + sog + ", cog=" + cog + ", lat=" + lat
-				+ ", lon=" + lon + ", timestamp=" + timestamp + ", length=" + length + ", shiptype=" + shiptype + "]";
+				+ ", lon=" + lon + ", timestamp=" + timestamp + ", length=" + length + ", shiptype=" + shiptype
+				+ ", filename=" + filename + "]";
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 }

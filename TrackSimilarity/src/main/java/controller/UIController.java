@@ -22,6 +22,7 @@ import javafx.scene.control.TextArea;
 import model.Track;
 import model.resultObject.AverageDistanceResultObject;
 import model.resultObject.ResultObject;
+import output.CSVWriter;
 import output.CustomOutputStream;
 
 @SuppressWarnings("restriction")
@@ -72,14 +73,22 @@ public class UIController implements Initializable {
 				ArrayList<Track> historicTracksCargo = CSVReader.readHistoricTracks("tracks/cargo");
 				System.out.println(
 						new Timestamp(System.currentTimeMillis()) + ": Predicting behavior for cargo vessels...");
-				SimilarityCalculator.calculatingSimilarities(historicTracksCargo);
+				HashMap<Integer, Double> result = SimilarityCalculator.calculatingSimilarities(historicTracksCargo);
+
+				this.btnSave.setDisable(false);
+
+				printResult(result);
 			}
 
 			if (this.radioTanker.isSelected()) {
 				ArrayList<Track> historicTracksTanker = CSVReader.readHistoricTracks("tracks/tanker");
 				System.out.println(
 						new Timestamp(System.currentTimeMillis()) + ": Predicting behavior for tanker vessels...");
-				SimilarityCalculator.calculatingSimilarities(historicTracksTanker);
+				HashMap<Integer, Double> result = SimilarityCalculator.calculatingSimilarities(historicTracksTanker);
+				this.btnSave.setDisable(false);
+
+				printResult(result);
+
 			}
 		} else {
 			System.out.println(new Timestamp(System.currentTimeMillis())
@@ -88,9 +97,24 @@ public class UIController implements Initializable {
 
 	}
 
+	private void printResult(HashMap<Integer, Double> result) {
+		CSVWriter writer = new CSVWriter();
+		writer.writeDistances(result);
+	}
+
+	private static Track pickRandomTrack(ArrayList<Track> historicTracks) {
+		int trackNumber = GeoUtil.generateRandomNumber(0, historicTracks.size() - 1);
+
+		Track track = historicTracks.get(trackNumber);
+
+		System.out.println(new Timestamp(System.currentTimeMillis()) + ": Picking random track " + track.getTrackId());
+
+		return track;
+	}
+
 	@SuppressWarnings("rawtypes")
 	public void updateTable() {
-		HashMap<String, Double> tableMap = new HashMap<String, Double>();
+		HashMap<String, Double> tableMap = new HashMap<>();
 
 		tableMap.put("MinDistance", 20d);
 		tableMap.put("MaxDistance", 20d);
@@ -105,6 +129,7 @@ public class UIController implements Initializable {
 
 	}
 
+	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
 		PrintStream printStream = new PrintStream(new CustomOutputStream(consoleTxtArea));

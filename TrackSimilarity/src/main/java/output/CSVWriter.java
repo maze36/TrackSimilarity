@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
@@ -17,13 +16,11 @@ import model.Track;
 
 public class CSVWriter {
 
-	private final static Logger logger = Logger.getLogger(CSVWriter.class.getName());
-
 	public void writeHistoricTrack(Track track, int index) {
-		logger.info("Writing remaining track to csv...");
+		System.out.println("Writing track " + index);
 
 		try {
-			PrintWriter pw = new PrintWriter(new File("track" + track.getTrackId() + ".csv"));
+			PrintWriter pw = new PrintWriter(new File("result/tracks/track" + track.getTrackId() + ".csv"));
 
 			StringBuilder sb = new StringBuilder();
 			sb.append("mmsi");
@@ -70,17 +67,17 @@ public class CSVWriter {
 
 			pw.write(sb.toString());
 			pw.close();
-			logger.info("Finished writing ");
+			System.out.println("Finished writing ");
 		} catch (FileNotFoundException e) {
-			logger.severe(e.getMessage());
+			System.err.println(e.getMessage());
 		}
 	}
 
 	public void writePrediction(Prediction prediction, int trackId) {
-		logger.info("Writing predicted track to csv...");
+		System.out.println("Writing predicted track to csv...");
 
 		try {
-			PrintWriter pw = new PrintWriter(new File("predictedTrack" + trackId + ".csv"));
+			PrintWriter pw = new PrintWriter(new File("result/tracks/predictedTrack" + trackId + ".csv"));
 
 			StringBuilder sb = new StringBuilder();
 			sb.append("lat");
@@ -97,19 +94,19 @@ public class CSVWriter {
 
 			pw.write(sb.toString());
 			pw.close();
-			logger.info("Finished writing ");
+			System.out.println("Finished writing ");
 		} catch (FileNotFoundException e) {
-			logger.severe(e.getMessage());
+			System.err.println(e.getMessage());
 		}
 
 	}
 
 	public void writeDistances(HashMap<Integer, Double> overallDistances) {
 
-		logger.info("Writing distances...");
+		System.out.println("Writing distances...");
 
 		try {
-			PrintWriter pw = new PrintWriter(new File("distances.csv"));
+			PrintWriter pw = new PrintWriter(new File("result/distances.csv"));
 
 			StringBuilder sb = new StringBuilder();
 			sb.append("trackId");
@@ -129,9 +126,9 @@ public class CSVWriter {
 
 			pw.write(sb.toString());
 			pw.close();
-			logger.info("Finished writing ");
+			System.out.println("Finished writing ");
 		} catch (FileNotFoundException e) {
-			logger.severe(e.getMessage());
+			System.err.println(e.getMessage());
 		}
 	}
 
