@@ -18,6 +18,11 @@ import model.LengthDistribution;
 import model.ShiptypeDistribution;
 import model.Track;
 
+/**
+ * 
+ * @author Matthias Steidel
+ *
+ */
 public class CSVReader {
 
 	private static String LINE = "";

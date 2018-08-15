@@ -10,11 +10,16 @@ import com.vividsolutions.jts.geom.Coordinate;
 import model.LengthUnit;
 import model.MathematicalOperation;
 
+/**
+ * 
+ * @author Matthias Steidel
+ *
+ */
 public class GeoUtil {
 
 	/**
-	 * Calculates a new position based on a given starting point, a distance and
-	 * a direction.
+	 * Calculates a new position based on a given starting point, a distance and a
+	 * direction.
 	 * 
 	 * @param start
 	 *            The start {@link Coordinate} for the calculation.
@@ -49,7 +54,7 @@ public class GeoUtil {
 	 *            The value which has to be added/subtracted.
 	 * @param operation
 	 *            The {@link MathematicalOperation}.
-	 * @return
+	 * @return The resulting COG
 	 */
 	public static double addOrSubtractAzimuth(double cog, double value, MathematicalOperation operation) {
 		switch (operation) {
@@ -77,8 +82,8 @@ public class GeoUtil {
 	}
 
 	/**
-	 * Calculates the distance between a two given points and returns the result
-	 * in the desired unit.
+	 * Calculates the distance between a two given points and returns the result in
+	 * the desired unit.
 	 * 
 	 * @param start
 	 *            The start {@link Coordinate}.
@@ -86,7 +91,7 @@ public class GeoUtil {
 	 *            The target {@link Coordinate}.
 	 * @param unit
 	 *            The desired {@link LengthUnit} of the result.
-	 * @return
+	 * @return The distance in the desired {@link LengthUnit}.
 	 */
 	public static double calculateDistance(Coordinate start, Coordinate end, LengthUnit unit) {
 		GeodeticCalculator calculator = new GeodeticCalculator();
@@ -112,7 +117,7 @@ public class GeoUtil {
 	 *            The start {@link Coordinate}.
 	 * @param end
 	 *            The target {@link Coordinate}.
-	 * @return
+	 * @return The azimuth in degrees.
 	 */
 	public static double calculateAzimuthInDegrees(Coordinate start, Coordinate end) {
 		GeodeticCalculator calculator = new GeodeticCalculator();
@@ -140,7 +145,7 @@ public class GeoUtil {
 	 * 
 	 * @param min
 	 * @param max
-	 * @return
+	 * @return The random Number
 	 */
 	public static int generateRandomNumber(int min, int max) {
 		return ThreadLocalRandom.current().nextInt(min, max + 1);

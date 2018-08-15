@@ -14,8 +14,19 @@ import model.AISMessage;
 import model.Prediction;
 import model.Track;
 
+/**
+ * 
+ * @author maze
+ *
+ */
 public class CSVWriter {
 
+	/**
+	 * Writes a given {@link Track} to .csv file.
+	 * 
+	 * @param track
+	 * @param index
+	 */
 	public void writeHistoricTrack(Track track, int index) {
 		System.out.println("Writing track " + index);
 
@@ -73,6 +84,12 @@ public class CSVWriter {
 		}
 	}
 
+	/**
+	 * Writes a given {@link Prediction} to a .csv file.
+	 * 
+	 * @param prediction
+	 * @param trackId
+	 */
 	public void writePrediction(Prediction prediction, int trackId) {
 		System.out.println("Writing predicted track to csv...");
 
@@ -101,6 +118,11 @@ public class CSVWriter {
 
 	}
 
+	/**
+	 * Writes a given {@link HashMap} containing distances to a .csv file.
+	 * 
+	 * @param overallDistances
+	 */
 	public void writeDistances(HashMap<Integer, Double> overallDistances) {
 
 		System.out.println("Writing distances...");

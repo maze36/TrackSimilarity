@@ -9,6 +9,11 @@ import controller.SimilarityCalculator;
 import input.CSVReader;
 import model.Track;
 
+/**
+ * 
+ * @author maze
+ *
+ */
 public class TrackSimilarity {
 
 	public static void main(String[] args) {
