@@ -1,0 +1,2 @@
+"mmsi","heading","sog","cog","rot","theme","timestamp","lat","lon","cog [Binned]","hourOfDay","Daily Segment","length","shiptype","Iteration","date&time diff","track_id","location"
+218415000,36.0,2.5,40.1,0.0,"AIS","2018-01-30T07:14:11",53.533015,8.165556666666667,"(35.1,71.2]",7,"MORNING",75.0,"GeneralCargo",1,3,"218415000_2018-01-30T07:14:11","218415000_2018-01-30T07_14_11.csv"

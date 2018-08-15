@@ -1,36 +1,33 @@
 package app;
 
-import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
-import controller.UIController;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import controller.PathPredictor;
+import controller.SimilarityCalculator;
+import input.CSVReader;
+import model.Track;
 
-@SuppressWarnings("restriction")
-public class TrackSimilarity extends Application {
-
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setController(new UIController());
-			loader.setLocation(getClass().getResource("/ui/entwurf.fxml"));
-			Parent root = loader.load();
-			primaryStage.setTitle("Hello");
-			primaryStage.setScene(new Scene(root, 800, 600));
-			primaryStage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+public class TrackSimilarity {
 
 	public static void main(String[] args) {
-		// launch(args);
 
-		System.out.println("Starting...");
+		long start = System.currentTimeMillis();
+
+		System.out.println(new Timestamp(System.currentTimeMillis()) + ": Starting....");
+		PathPredictor.INSTANCE.init();
+
+		ArrayList<Track> historicTracks = CSVReader.readHistoricTracks("tracks");
+		System.out.println(new Timestamp(System.currentTimeMillis()) + ": Predicting behavior for "
+				+ historicTracks.size() + " vessels");
+		SimilarityCalculator.calculatingSimilarities(historicTracks);
+
+		long end = System.currentTimeMillis();
+
+		long duration = TimeUnit.MILLISECONDS.toSeconds(end - start);
+
+		System.out.println(new Timestamp(System.currentTimeMillis()) + "Finished. Duration: " + duration + " seconds");
 
 	}
 

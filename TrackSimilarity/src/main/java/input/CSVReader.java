@@ -28,7 +28,8 @@ public class CSVReader {
 	 * Reads in the CSV-file containing the nodes of the transportation network in
 	 * the Jade. The nodes will be stored in a {@link InnenjadeQuadtree}.
 	 * 
-	 * @param csvLocationJadeNodes The location of the CSV file.
+	 * @param csvLocationJadeNodes
+	 *            The location of the CSV file.
 	 * @return The {@link InnenjadeQuadtree} containing the nodes.
 	 */
 	public static InnenjadeQuadtree readJadeNodes(String csvLocationJadeNodes) {
@@ -73,7 +74,8 @@ public class CSVReader {
 	 * Extracting the neighbors that are contained in a {@link String}. The
 	 * {@link String} must have the format "neighbor1, neighbor2...neighborN".
 	 * 
-	 * @param neighbors The {@link String} in the described format above.
+	 * @param neighbors
+	 *            The {@link String} in the described format above.
 	 * @return An {@link ArrayList} containing the neighbors as {@link String}.
 	 */
 	private static ArrayList<String> extractNeighbors(String neighbors) {
@@ -98,11 +100,11 @@ public class CSVReader {
 	 * node in the extracted traffic pattern graph. The appropriate nodes will be
 	 * augmented by these information.
 	 * 
-	 * @param csvLocationStatisticalDistribution The path to the directory of the
-	 *                                           CSV-files.
-	 * @param innenJadeQuadtree                  The {@link InnenjadeQuadtree}
-	 *                                           containing the extracted traffic
-	 *                                           pattern graph.
+	 * @param csvLocationStatisticalDistribution
+	 *            The path to the directory of the CSV-files.
+	 * @param innenJadeQuadtree
+	 *            The {@link InnenjadeQuadtree} containing the extracted traffic
+	 *            pattern graph.
 	 * @return
 	 */
 	public static InnenjadeQuadtree readStatisticalDistribution(String csvLocationStatisticalDistribution,
@@ -185,35 +187,38 @@ public class CSVReader {
 		File[] listOfFiles = getFilesInDirectory(path);
 		for (int i = 0; i < listOfFiles.length; i++) {
 			String location = listOfFiles[i].getPath();
+			if (location.contains(".csv")) {
 
-			Track track = new Track();
-			try {
-				@SuppressWarnings("resource")
-				BufferedReader reader = new BufferedReader(new FileReader(location));
-				ArrayList<AISMessage> messages = new ArrayList<>();
-				while ((LINE = reader.readLine()) != null) {
-					String[] predTrackLine = LINE.split(SPLITTER);
-					if (!predTrackLine[0].contains("mmsi")) {
-						AISMessage message = new AISMessage();
-						message.setFilename(location);
-						message.setMmsi(Integer.valueOf(predTrackLine[0]));
-						message.setHeading(Double.valueOf(predTrackLine[1]));
-						message.setSog(Double.valueOf(predTrackLine[2]));
-						message.setCog(Double.valueOf(predTrackLine[3]));
-						message.setTimestamp(predTrackLine[6]);
-						message.setLat(Double.valueOf(predTrackLine[7]));
-						message.setLon(Double.valueOf(predTrackLine[8]));
-						message.setLength(Double.valueOf(predTrackLine[13]));
-						message.setShiptype(predTrackLine[14]);
-						messages.add(message);
+				Track track = new Track();
+				try {
+					@SuppressWarnings("resource")
+					BufferedReader reader = new BufferedReader(new FileReader(location));
+					ArrayList<AISMessage> messages = new ArrayList<>();
+					while ((LINE = reader.readLine()) != null) {
+						String[] predTrackLine = LINE.split(SPLITTER);
+						if (!predTrackLine[0].contains("mmsi")) {
+							AISMessage message = new AISMessage();
+							message.setFilename(location);
+							message.setMmsi(Integer.valueOf(predTrackLine[0]));
+							message.setHeading(Double.valueOf(predTrackLine[1]));
+							message.setSog(Double.valueOf(predTrackLine[2]));
+							message.setCog(Double.valueOf(predTrackLine[3]));
+							message.setTimestamp(predTrackLine[6]);
+							message.setLat(Double.valueOf(predTrackLine[7]));
+							message.setLon(Double.valueOf(predTrackLine[8]));
+							message.setLength(Double.valueOf(predTrackLine[13]));
+							message.setShiptype(predTrackLine[14]);
+							messages.add(message);
+						}
 					}
+					track.setMessage(messages);
+					track.setTrackId(i);
+					tracks.add(track);
+
+				} catch (IOException e) {
+					System.err.println(e.getMessage());
+					return null;
 				}
-				track.setMessage(messages);
-				track.setTrackId(i);
-				tracks.add(track);
-			} catch (IOException e) {
-				System.err.println(e.getMessage());
-				return null;
 			}
 		}
 		System.out.println(new Timestamp(System.currentTimeMillis()) + ": Finished reading tracks from " + path);
